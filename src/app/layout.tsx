@@ -1,10 +1,6 @@
-'use client';
-
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { AuthProvider } from '@/context/AuthContext';
+import AppWrapper from '@/components/AppWrapper';
 
 export const metadata: Metadata = {
   title: 'Real Estate MVP',
@@ -19,13 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <AuthProvider>
-          <Header />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </AuthProvider>
+        <AppWrapper>
+          {children}
+        </AppWrapper>
       </body>
     </html>
   );

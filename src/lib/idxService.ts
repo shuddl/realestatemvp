@@ -133,7 +133,6 @@ export async function syncProperties(filters: PropertyFilter = {}): Promise<numb
       .from('properties')
       .upsert(properties, {
         onConflict: 'mls_id',
-        returning: 'minimal',
         ignoreDuplicates: false,
       })
       .select('count');
@@ -182,8 +181,7 @@ export async function getProperty(id: string): Promise<Property | null> {
 
     // Store in Supabase for future use
     await supabase.from('properties').upsert(property, {
-      onConflict: 'mls_id',
-      returning: 'minimal',
+      onConflict: 'mls_id'
     });
 
     return property;
