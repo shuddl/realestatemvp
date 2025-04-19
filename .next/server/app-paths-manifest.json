@@ -1,0 +1,15 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/api/properties/route": "app/api/properties/route.js",
+  "/api/properties/[id]/route": "app/api/properties/[id]/route.js",
+  "/api/favorites/route": "app/api/favorites/route.js",
+  "/chat/page": "app/chat/page.js",
+  "/coaching/page": "app/coaching/page.js",
+  "/favorites/page": "app/favorites/page.js",
+  "/page": "app/page.js",
+  "/properties/[id]/page": "app/properties/[id]/page.js",
+  "/coaching/[coachId]/chat/page": "app/coaching/[coachId]/chat/page.js",
+  "/register/page": "app/register/page.js",
+  "/properties/page": "app/properties/page.js",
+  "/login/page": "app/login/page.js"
+}
