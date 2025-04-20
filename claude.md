@@ -22,5 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Imports**: Group by external, internal, types, styles
 - **Error Handling**: Use try/catch with appropriate error messages
 - **Performance**: Avoid unnecessary renders, memoize expensive calculations
+- **Typescript**: Use strict typing, define interfaces in src/types
+- **Components**: Use 'use client' directive for client components, promote reusability
 
 Focus on integrating IDX/FMR data and implementing a simplified mortgage calculator while using third-party solutions for chat and scheduling.

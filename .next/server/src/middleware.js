@@ -2311,11 +2311,10 @@ function createClientComponentClient({ supabaseUrl = "https://mock-supabase-url.
                 ...options == null ? void 0 : options.global,
                 headers: {
                     ...(_a = options == null ? void 0 : options.global) == null ? void 0 : _a.headers,
-                    "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.7.4"}`
+                    "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.8.7"}`
                 }
             },
             auth: {
-                storageKey: cookieOptions == null ? void 0 : cookieOptions.name,
                 storage: new import_auth_helpers_shared.BrowserCookieAuthStorageAdapter(cookieOptions)
             }
         });
@@ -2339,9 +2338,9 @@ var NextServerAuthStorageAdapter = class extends import_auth_helpers_shared2.Coo
         this.context = context;
     }
     getCookie(name) {
-        var _a;
-        const setCookie = (0, import_set_cookie_parser.splitCookiesString)(((_a = this.context.res.getHeader("set-cookie")) == null ? void 0 : _a.toString()) ?? "").map((c)=>(0, import_auth_helpers_shared2.parseCookies)(c)[name]).find((c)=>!!c);
-        const value = setCookie ?? this.context.req.cookies[name];
+        var _a, _b, _c;
+        const setCookie = (0, import_set_cookie_parser.splitCookiesString)(((_b = (_a = this.context.res) == null ? void 0 : _a.getHeader("set-cookie")) == null ? void 0 : _b.toString()) ?? "").map((c)=>(0, import_auth_helpers_shared2.parseCookies)(c)[name]).find((c)=>!!c);
+        const value = setCookie ?? ((_c = this.context.req) == null ? void 0 : _c.cookies[name]);
         return value;
     }
     setCookie(name, value) {
@@ -2358,6 +2357,7 @@ var NextServerAuthStorageAdapter = class extends import_auth_helpers_shared2.Coo
         const cookieStr = (0, import_auth_helpers_shared2.serializeCookie)(name, value, {
             ...this.cookieOptions,
             ...options,
+            // Allow supabase-js on the client to read the cookie as well
             httpOnly: false
         });
         this.context.res.setHeader("set-cookie", [
@@ -2377,11 +2377,10 @@ function createPagesServerClient(context, { supabaseUrl = "https://mock-supabase
             ...options == null ? void 0 : options.global,
             headers: {
                 ...(_a = options == null ? void 0 : options.global) == null ? void 0 : _a.headers,
-                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.7.4"}`
+                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.8.7"}`
             }
         },
         auth: {
-            storageKey: cookieOptions == null ? void 0 : cookieOptions.name,
             storage: new NextServerAuthStorageAdapter(context, cookieOptions)
         }
     });
@@ -2415,11 +2414,11 @@ var NextMiddlewareAuthStorageAdapter = class extends import_auth_helpers_shared3
         const newSessionStr = (0, import_auth_helpers_shared3.serializeCookie)(name, value, {
             ...this.cookieOptions,
             ...options,
+            // Allow supabase-js on the client to read the cookie as well
             httpOnly: false
         });
         if (this.context.res.headers) {
             this.context.res.headers.append("set-cookie", newSessionStr);
-            this.context.res.headers.append("cookie", newSessionStr);
         }
     }
 };
@@ -2434,11 +2433,10 @@ function createMiddlewareClient(context, { supabaseUrl = "https://mock-supabase-
             ...options == null ? void 0 : options.global,
             headers: {
                 ...(_a = options == null ? void 0 : options.global) == null ? void 0 : _a.headers,
-                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.7.4"}`
+                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.8.7"}`
             }
         },
         auth: {
-            storageKey: cookieOptions == null ? void 0 : cookieOptions.name,
             storage: new NextMiddlewareAuthStorageAdapter(context, cookieOptions)
         }
     });
@@ -2469,11 +2467,10 @@ function createServerComponentClient(context, { supabaseUrl = "https://mock-supa
             ...options == null ? void 0 : options.global,
             headers: {
                 ...(_a = options == null ? void 0 : options.global) == null ? void 0 : _a.headers,
-                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.7.4"}`
+                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.8.7"}`
             }
         },
         auth: {
-            storageKey: cookieOptions == null ? void 0 : cookieOptions.name,
             storage: new NextServerComponentAuthStorageAdapter(context, cookieOptions)
         }
     });
@@ -2497,6 +2494,7 @@ var NextRouteHandlerAuthStorageAdapter = class extends import_auth_helpers_share
     deleteCookie(name) {
         const nextCookies = this.context.cookies();
         nextCookies.set(name, "", {
+            ...this.cookieOptions,
             maxAge: 0
         });
     }
@@ -2512,11 +2510,10 @@ function createRouteHandlerClient(context, { supabaseUrl = "https://mock-supabas
             ...options == null ? void 0 : options.global,
             headers: {
                 ...(_a = options == null ? void 0 : options.global) == null ? void 0 : _a.headers,
-                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.7.4"}`
+                "X-Client-Info": `${"@supabase/auth-helpers-nextjs"}@${"0.8.7"}`
             }
         },
         auth: {
-            storageKey: cookieOptions == null ? void 0 : cookieOptions.name,
             storage: new NextRouteHandlerAuthStorageAdapter(context, cookieOptions)
         }
     });
@@ -11819,7 +11816,11 @@ var __copyProps = (to, from, except, desc)=>{
     }
     return to;
 };
-var __toESM = (mod, isNodeMode, target)=>(target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+var __toESM = (mod, isNodeMode, target)=>(target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(// If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
         value: mod,
         enumerable: true
     }) : target, mod));
@@ -12024,23 +12025,72 @@ function dist_isBrowser() {
 // src/utils/constants.ts
 var DEFAULT_COOKIE_OPTIONS = {
     path: "/",
+    sameSite: "lax",
     maxAge: 60 * 60 * 24 * 365 * 1e3
 };
+// src/chunker.ts
+function createChunkRegExp(chunkSize) {
+    return new RegExp(".{1," + chunkSize + "}", "g");
+}
+var MAX_CHUNK_SIZE = 3180;
+var MAX_CHUNK_REGEXP = createChunkRegExp(MAX_CHUNK_SIZE);
+function createChunks(key, value, chunkSize) {
+    const re = chunkSize !== void 0 ? createChunkRegExp(chunkSize) : MAX_CHUNK_REGEXP;
+    const chunkCount = Math.ceil(value.length / (chunkSize ?? MAX_CHUNK_SIZE));
+    if (chunkCount === 1) {
+        return [
+            {
+                name: key,
+                value
+            }
+        ];
+    }
+    const chunks = [];
+    const values = value.match(re);
+    values == null ? void 0 : values.forEach((value2, i)=>{
+        const name = `${key}.${i}`;
+        chunks.push({
+            name,
+            value: value2
+        });
+    });
+    return chunks;
+}
+function combineChunks(key, retrieveChunk = ()=>{
+    return null;
+}) {
+    let values = [];
+    for(let i = 0;; i++){
+        const chunkName = `${key}.${i}`;
+        const chunk = retrieveChunk(chunkName);
+        if (!chunk) {
+            break;
+        }
+        values.push(chunk);
+    }
+    return values.length ? values.join("") : null;
+}
 // src/cookieAuthStorageAdapter.ts
 var CookieAuthStorageAdapter = class {
     constructor(cookieOptions){
         this.cookieOptions = {
             ...DEFAULT_COOKIE_OPTIONS,
-            ...cookieOptions
+            ...cookieOptions,
+            maxAge: DEFAULT_COOKIE_OPTIONS.maxAge
         };
     }
     getItem(key) {
         const value = this.getCookie(key);
-        if (!value) return null;
-        if (key.endsWith("-code-verifier")) {
+        if (key.endsWith("-code-verifier") && value) {
             return value;
         }
-        return JSON.stringify(parseSupabaseCookie(value));
+        if (value) {
+            return JSON.stringify(parseSupabaseCookie(value));
+        }
+        const chunks = combineChunks(key, (chunkName)=>{
+            return this.getCookie(chunkName);
+        });
+        return chunks !== null ? JSON.stringify(parseSupabaseCookie(chunks)) : null;
     }
     setItem(key, value) {
         if (key.endsWith("-code-verifier")) {
@@ -12049,10 +12099,29 @@ var CookieAuthStorageAdapter = class {
         }
         let session = JSON.parse(value);
         const sessionStr = stringifySupabaseSession(session);
-        this.setCookie(key, sessionStr);
+        const sessionChunks = createChunks(key, sessionStr);
+        sessionChunks.forEach((sess)=>{
+            this.setCookie(sess.name, sess.value);
+        });
     }
     removeItem(key) {
-        this.deleteCookie(key);
+        this._deleteSingleCookie(key);
+        this._deleteChunkedCookies(key);
+    }
+    _deleteSingleCookie(key) {
+        if (this.getCookie(key)) {
+            this.deleteCookie(key);
+        }
+    }
+    _deleteChunkedCookies(key, from = 0) {
+        for(let i = from;; i++){
+            const cookieName = `${key}.${i}`;
+            const value = this.getCookie(cookieName);
+            if (value === void 0) {
+                break;
+            }
+            this.deleteCookie(cookieName);
+        }
     }
 };
 // src/browserCookieStorage.ts
@@ -12085,15 +12154,16 @@ var BrowserCookieAuthStorageAdapter = class extends CookieAuthStorageAdapter {
 
 function createSupabaseClient(supabaseUrl, supabaseKey, options) {
     var _a;
-    const bowser = dist_isBrowser();
+    const browser = dist_isBrowser();
     return createClient(supabaseUrl, supabaseKey, {
         ...options,
         auth: {
             flowType: "pkce",
-            autoRefreshToken: bowser,
-            detectSessionInUrl: bowser,
+            autoRefreshToken: browser,
+            detectSessionInUrl: browser,
             persistSession: true,
             storage: options.auth.storage,
+            // fix this in supabase-js
             ...((_a = options.auth) == null ? void 0 : _a.storageKey) ? {
                 storageKey: options.auth.storageKey
             } : {}
@@ -12102,12 +12172,16 @@ function createSupabaseClient(supabaseUrl, supabaseKey, options) {
 }
 var export_parseCookies = import_cookie.parse;
 var export_serializeCookie = import_cookie.serialize;
- /*!
- * cookie
- * Copyright(c) 2012-2014 Roman Shtylman
- * Copyright(c) 2015 Douglas Christopher Wilson
- * MIT Licensed
- */  //# sourceMappingURL=index.mjs.map
+ /*! Bundled license information:
+
+cookie/index.js:
+  (*!
+   * cookie
+   * Copyright(c) 2012-2014 Roman Shtylman
+   * Copyright(c) 2015 Douglas Christopher Wilson
+   * MIT Licensed
+   *)
+*/  //# sourceMappingURL=index.mjs.map
 
 
 /***/ })

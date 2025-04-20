@@ -1,1 +1,0 @@
-exports.id=603,exports.ids=[603],exports.modules={58359:()=>{},93739:()=>{},3147:(e,r,t)=>{"use strict";t.r(r),t.d(r,{Receiver:()=>s,Sender:()=>c,WebSocket:()=>d,WebSocketServer:()=>S,createWebSocketStream:()=>o,default:()=>a});var o=t(66994),s=t(92535),c=t(67345),d=t(99364),S=t(53840);let a=d}};

@@ -1,71 +1,55 @@
 # Section 8 Real Estate MVP Demo Instructions
 
+This document provides instructions for running the demo version of the Section 8 Real Estate MVP application.
+
 ## Running the Demo
 
-1. Run the deployment script to set up the demo environment:
-   ```
-   ./deploy-demo.sh
-   ```
+To start the demo application:
 
-2. The application will be available at http://localhost:3000
+```bash
+npm run demo
+```
 
-## Demo Flow for Client Presentation
+This will:
+1. Configure mock data and environment variables
+2. Install required dependencies
+3. Build the application (ignoring TypeScript errors)
+4. Start the application on port 3500
 
-When recording a video or presenting to the client, follow this flow to highlight key features:
+## Demo Walkthrough
 
-### 1. Homepage & Overview (30 seconds)
-- Show the homepage and explain the platform's purpose
-- Point out the clean, professional design
+For the video demo, follow these steps:
 
-### 2. Property Listings (1 minute)
-- Navigate to the Properties page
-- Demonstrate filtering properties (price, bedrooms, location)
-- Show how properties display Fair Market Rent and cash flow calculations
-- Highlight positive cash flow properties with green indicators
+### 1. Property Listings
+- Navigate to the home page to show property listings
+- Filter properties using the filter controls
+- Note the Section 8 integration with Fair Market Rent data
 
-### 3. Property Detail (1 minute)
-- Select any property to view details
-- Showcase the image gallery
-- Point out the property specifications
-- Focus on the Deal Analysis section on the right:
-  - Show how FMR data is displayed
-  - Demonstrate the interactive mortgage calculator
-  - Show how changes to down payment, interest rate, etc. affect cash flow
+### 2. Property Details
+- Click on a property to view detailed information
+- Show the basic deal analysis card with cash flow calculation
+- Use the favorite button to demonstrate user interactions
 
-### 4. Favorites (30 seconds)
-- Add a property to favorites (heart icon)
-- Navigate to the Favorites page
-- Show the saved property and how it can be accessed later
+### 3. Advanced Deal Analysis
+- Click the "Advanced Analysis" button on a property
+- Show the financial analysis parameters that can be adjusted
+- Demonstrate how changing parameters affects the deal score
+- Switch to the visualizations tab to show charts and projections
+- Show the Section 8 compliance tab to highlight program requirements
 
-### 5. Community Chat (30 seconds)
-- Navigate to the Community chat section
-- Show the channel list and messaging interface
-- Explain how investors can connect with each other
+### 4. Community Features
+- Navigate to the community section to show chat functionality
+- Demonstrate how investors can share properties
 
-### 6. Coaching (30 seconds)
-- Navigate to the Coaching section
-- Showcase coach profiles
-- Show the Calendly integration for scheduling
-- Briefly mention the private coaching chat
+### 5. Coaching Portal
+- Show the coaching portal with appointment scheduling
+- Highlight the expert review request feature
 
-### 7. User Account (15 seconds)
-- Show the sign up/login flow
-- Mention security features
+## Technical Notes
 
-## Important Demo Notes
+This demo version:
+- Uses mock data instead of real API connections
+- Bypasses TypeScript error checking for demonstration purposes
+- Focuses on UI/UX and core functionality
 
-1. For the demo, we're using mock data - point out this is just for demonstration
-2. The login functionality appears to work but doesn't persist real user data
-3. During recording, point out that the final version will connect to:
-   - Real Section 8/FMR data
-   - SimplyRETS or other IDX feed
-   - Actual Supabase backend
-   - Production Stream Chat channels
-
-## Key Features to Emphasize
-
-- **Deal Analysis**: The automatic calculation of potential cash flow based on Section 8 FMR data
-- **User Experience**: Clean, intuitive interface designed for investors
-- **Community & Coaching**: Going beyond just listings to build a platform for Section 8 investors
-
-If you have limited time, focus on the Property and Deal Analysis features, as these are the core value proposition.
+For any issues during the demo, restart the application using `npm run demo`.
